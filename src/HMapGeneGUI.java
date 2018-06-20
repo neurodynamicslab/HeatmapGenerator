@@ -1,5 +1,10 @@
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -15,7 +20,9 @@ import javax.swing.JOptionPane;
  */
 public class HMapGeneGUI extends javax.swing.JDialog {
 
-    private File dataFileName;
+    private File dataFile;
+    private float [] xData;
+    private  float [] yData;
 
     /**
      * Creates new form HMapGeneGUI
@@ -23,6 +30,8 @@ public class HMapGeneGUI extends javax.swing.JDialog {
     public HMapGeneGUI(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        dataFile = null;
     }
 
     /**
@@ -40,7 +49,7 @@ public class HMapGeneGUI extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         byeButton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        genHMapButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -52,18 +61,8 @@ public class HMapGeneGUI extends javax.swing.JDialog {
         });
 
         FileNameText.setEditable(false);
-        FileNameText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FileNameTextActionPerformed(evt);
-            }
-        });
 
         PathNameText.setEditable(false);
-        PathNameText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PathNameTextActionPerformed(evt);
-            }
-        });
 
         jLabel1.setText("PathName of the selected file:");
 
@@ -76,8 +75,13 @@ public class HMapGeneGUI extends javax.swing.JDialog {
             }
         });
 
-        jButton1.setText("Generate HMap");
-        jButton1.setEnabled(false);
+        genHMapButton.setText("Generate HMap");
+        genHMapButton.setEnabled(false);
+        genHMapButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                genHMapButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,7 +108,7 @@ public class HMapGeneGUI extends javax.swing.JDialog {
                                 .addGap(76, 76, 76)
                                 .addComponent(byeButton)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton1)))
+                                .addComponent(genHMapButton)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,7 +131,7 @@ public class HMapGeneGUI extends javax.swing.JDialog {
                 .addGap(58, 58, 58)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(byeButton)
-                    .addComponent(jButton1))
+                    .addComponent(genHMapButton))
                 .addContainerGap(66, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -139,10 +143,6 @@ public class HMapGeneGUI extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void FileNameTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FileNameTextActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_FileNameTextActionPerformed
-
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
         // TODO add your handling code here:
         
@@ -151,27 +151,54 @@ public class HMapGeneGUI extends javax.swing.JDialog {
         
         switch(status){
             case JFileChooser.APPROVE_OPTION:
-                dataFileName = FC.getSelectedFile();
-                //JOptionPane.showMessageDialog(null,"Name is: "+dataFileName.getName()+" Pathname is: "+dataFileName.getAbsolutePath());
-                FileNameText.setText(dataFileName.getName());
-                PathNameText.setText(dataFileName.getParent());
+                dataFile = FC.getSelectedFile();
+                //JOptionPane.showMessageDialog(null,"Name is: "+dataFile.getName()+" Pathname is: "+dataFile.getAbsolutePath());
+                FileNameText.setText(dataFile.getName());
+                PathNameText.setText(dataFile.getParent());
+                genHMapButton.setEnabled(true);
                 break;
             case JFileChooser.CANCEL_OPTION:
                 break;
             case JFileChooser.ERROR_OPTION:
                 JOptionPane.showMessageDialog(null, "Error opening the file");
+                dataFile = null;
+                genHMapButton.setEnabled(false);
                 break;
-    }
+        }
     }//GEN-LAST:event_browseButtonActionPerformed
-
-    private void PathNameTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PathNameTextActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PathNameTextActionPerformed
 
     private void byeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_byeButtonActionPerformed
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_byeButtonActionPerformed
+
+    private void genHMapButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genHMapButtonActionPerformed
+        try {
+            // TODO add your handling code here:
+            FileReader dataReader = new FileReader(this.dataFile);
+            int byteRead =0;
+            String xString = "", yString = "";
+            boolean isTab = false;
+            int dataCount = 0; 
+            Float f = new Float("0");
+            while((byteRead = dataReader.read()) != -1){
+                if(byteRead == '\n'){
+                   
+                   // xData[dataCount++] = new Float(xString).floatValue();
+                    //yData[dataCount++] = new Float(yString).floatValue();
+                    //isTab = !isTab;
+                    
+                }
+                //xString +=
+            }
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(HMapGeneGUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Exception occurred while reading the file: Ex. # is "+ex.getMessage());
+        } catch (IOException ex) {
+            Logger.getLogger(HMapGeneGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }//GEN-LAST:event_genHMapButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -220,7 +247,7 @@ public class HMapGeneGUI extends javax.swing.JDialog {
     private javax.swing.JTextField PathNameText;
     private javax.swing.JButton browseButton;
     private javax.swing.JButton byeButton;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton genHMapButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
