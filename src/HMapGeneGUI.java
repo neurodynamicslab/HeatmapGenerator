@@ -1,4 +1,7 @@
 
+import ij.ImagePlus;
+import ij.io.FileSaver;
+import ij.process.FloatProcessor;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -50,6 +53,12 @@ public class HMapGeneGUI extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         byeButton = new javax.swing.JButton();
         genHMapButton = new javax.swing.JButton();
+        xMaxtxt = new javax.swing.JTextField();
+        yMaxtxt = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -83,6 +92,21 @@ public class HMapGeneGUI extends javax.swing.JDialog {
             }
         });
 
+        xMaxtxt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        xMaxtxt.setText("0");
+        xMaxtxt.setAutoscrolls(false);
+
+        yMaxtxt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        yMaxtxt.setText("0");
+
+        jLabel3.setText("x Dimension of video");
+
+        jLabel4.setText("y Dimension of video");
+
+        jLabel5.setText("in pixels");
+
+        jLabel6.setText("in pixels");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -100,17 +124,30 @@ public class HMapGeneGUI extends javax.swing.JDialog {
                                 .addComponent(jLabel1)
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(62, 62, 62)
-                                .addComponent(FileNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(76, 76, 76)
-                                .addComponent(byeButton)
-                                .addGap(18, 18, 18)
-                                .addComponent(genHMapButton)))
+                        .addGap(62, 62, 62)
+                        .addComponent(FileNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(76, 76, 76)
+                .addComponent(byeButton)
+                .addGap(18, 18, 18)
+                .addComponent(genHMapButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(yMaxtxt, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+                    .addComponent(xMaxtxt))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addGap(31, 31, 31))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(62, 62, 62)
@@ -128,16 +165,26 @@ public class HMapGeneGUI extends javax.swing.JDialog {
                     .addComponent(browseButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(FileNameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(xMaxtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(yMaxtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(byeButton)
                     .addComponent(genHMapButton))
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(77, 77, 77)
                     .addComponent(PathNameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(201, Short.MAX_VALUE)))
+                    .addContainerGap(205, Short.MAX_VALUE)))
         );
 
         pack();
@@ -173,33 +220,93 @@ public class HMapGeneGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_byeButtonActionPerformed
 
     private void genHMapButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genHMapButtonActionPerformed
+       
+        
         try {
             // TODO add your handling code here:
+            int xMax = new Integer(xMaxtxt.getText());
+            int yMax = new Integer(yMaxtxt.getText());
+            
+            
+            
             FileReader dataReader = new FileReader(this.dataFile);
             int byteRead =0;
             String xString = "", yString = "";
             boolean isTab = false;
             int dataCount = 0; 
-            Float f = new Float("0");
+            int nData = 0;
+            //dataReader.mark();
+            while((byteRead = dataReader.read()) != -1)
+                    if(byteRead == '\n') nData++;
+            //dataReader.reset();
+            
+            dataReader.close();
+            dataReader = new FileReader(this.dataFile);
+            
+            xData = new float[nData+1];
+            yData = new float[nData+1];
+            
             while((byteRead = dataReader.read()) != -1){
                 if(byteRead == '\n'){
+                    dataCount++;
+                    xData[dataCount] = new Float(xString);
+                    yData[dataCount] = new Float(yString);
                    
-                   // xData[dataCount++] = new Float(xString).floatValue();
-                    //yData[dataCount++] = new Float(yString).floatValue();
-                    //isTab = !isTab;
                     
+                    isTab = false; 
+                    xString = "";
+                    yString = "";
+                }else{
+                    if(byteRead == '\t'){
+                        isTab = true; 
+                    }else{
+                        if(isTab)
+                            yString += byteRead;
+                        else
+                            xString += byteRead;
+                    
+                    }
                 }
-                //xString +=
             }
+            
+            int imageData[][] = null;
+            imageData = createimage(xData, yData, xMax , yMax);
+            ImagePlus imp;
+            imp = new ImagePlus("HeatMap", new FloatProcessor(imageData));
+            imp.show();
+            
+            FileSaver Fs = new FileSaver(imp);
+            Fs.saveAsTiff();
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(HMapGeneGUI.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Exception occurred while reading the file: Ex. # is "+ex.getMessage());
         } catch (IOException ex) {
             Logger.getLogger(HMapGeneGUI.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        } catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Please enter a valid number in the dimensions field");
+        }
     }//GEN-LAST:event_genHMapButtonActionPerformed
+private int [][] createimage(float[] dataX, float[] dataY, int xMax , int yMax) {
+        int [][] Image = null;
+        int xlen = dataX.length;
+        int ylen = dataY.length;
+        int xidx, yidx = 0;
 
+        if(xlen != ylen)
+            return null;
+        Image = new int [xMax][yMax];
+
+        for (int count = 0 ; count < xlen ; count++){
+            xidx = (dataX[count] > 0 && dataX[count] < 1 ) ? 1 : (int)dataX[count];
+            yidx = (dataY[count] > 0 && dataY[count] < 1) ? 1 : (int)dataY[count];
+            if(xidx < xMax && yidx < yMax && xidx > 0 && yidx > 0)
+                Image[xidx][yidx] += 10;
+        }
+            
+
+        return Image.clone();
+    }
     /**
      * @param args the command line arguments
      */
@@ -250,5 +357,11 @@ public class HMapGeneGUI extends javax.swing.JDialog {
     private javax.swing.JButton genHMapButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JTextField xMaxtxt;
+    private javax.swing.JTextField yMaxtxt;
     // End of variables declaration//GEN-END:variables
 }
