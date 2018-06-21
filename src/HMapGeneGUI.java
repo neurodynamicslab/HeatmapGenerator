@@ -261,9 +261,10 @@ public class HMapGeneGUI extends javax.swing.JDialog {
                         isTab = true; 
                     }else{
                         if(isTab)
-                            yString += byteRead;
+                            yString += (char)byteRead;  // if this does not work the real thing should be 
+                                                        // byteread - '0';
                         else
-                            xString += byteRead;
+                            xString += (char)byteRead;
                     
                     }
                 }
