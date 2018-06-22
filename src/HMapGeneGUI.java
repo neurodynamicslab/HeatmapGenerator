@@ -221,13 +221,40 @@ public class HMapGeneGUI extends javax.swing.JDialog {
 
     private void genHMapButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genHMapButtonActionPerformed
        
+         int xMax = new Integer(xMaxtxt.getText());          // Dimensions of the image that would be used to create the HMap 
+         int yMax = new Integer(yMaxtxt.getText());
+         
+         
+         readAsciiXYData( /*xData, yData, this.dataFile*/);
+         int imageData[][] = null;
+         imageData = createimage(xData, yData, xMax , yMax);
+         ImagePlus imp;
+         imp = new ImagePlus("HeatMap", new FloatProcessor(imageData));
+         imp.show();
+            
+         FileSaver Fs = new FileSaver(imp);
+         Fs.saveAsTiff();
+       
+    }//GEN-LAST:event_genHMapButtonActionPerformed
+ /**
+  * 
+  * @param xData     float array to store the x-data 
+  * @param yData     float array to store the x-data 
+  * @param dataFile  File object from where the X , Y Co-ordinates of the ASCII file is read. 
+  * @return true if successful. 
+  * 
+  * This function reads the ascii data from a file assuming the data are saved in the format 
+  * x1 \t y1 \n. It counts the number of new line (\n) to determine the number of data points 
+  * to read. 
+  */
+    
+    
+    private boolean readAsciiXYData(/*float xData[], float yData[], File dataFile*/){
         
-        try {
+        
+         try {
             // TODO add your handling code here:
-            int xMax = new Integer(xMaxtxt.getText());
-            int yMax = new Integer(yMaxtxt.getText());
-            
-            
+             
             
             FileReader dataReader = new FileReader(this.dataFile);
             int byteRead =0;
@@ -243,8 +270,8 @@ public class HMapGeneGUI extends javax.swing.JDialog {
             dataReader.close();
             dataReader = new FileReader(this.dataFile);
             
-            xData = new float[nData+1];
-            yData = new float[nData+1];
+            this.xData = new float[nData+1];
+            this.yData = new float[nData+1];
             
             while((byteRead = dataReader.read()) != -1){
                 if(byteRead == '\n'){
@@ -270,14 +297,7 @@ public class HMapGeneGUI extends javax.swing.JDialog {
                 }
             }
             
-            int imageData[][] = null;
-            imageData = createimage(xData, yData, xMax , yMax);
-            ImagePlus imp;
-            imp = new ImagePlus("HeatMap", new FloatProcessor(imageData));
-            imp.show();
             
-            FileSaver Fs = new FileSaver(imp);
-            Fs.saveAsTiff();
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(HMapGeneGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -287,8 +307,9 @@ public class HMapGeneGUI extends javax.swing.JDialog {
         } catch (NumberFormatException ex){
             JOptionPane.showMessageDialog(this, "Please enter a valid number in the dimensions field");
         }
-    }//GEN-LAST:event_genHMapButtonActionPerformed
-private int [][] createimage(float[] dataX, float[] dataY, int xMax , int yMax) {
+      return true;
+ }
+    private int [][] createimage(float[] dataX, float[] dataY, int xMax , int yMax) {
         int [][] Image = null;
         int xlen = dataX.length;
         int ylen = dataY.length;
